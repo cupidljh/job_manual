@@ -1,0 +1,4 @@
+﻿  run.c
+c:\users\administrator\documents\visual studio 2015\projects\crc_test\rear_hdlc\run.c(12): warning C4013: 'exit'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  rear_hdlc.vcxproj -> C:\Users\Administrator\Documents\Visual Studio 2015\Projects\CRC_TEST\Debug\rear_hdlc.exe
+  rear_hdlc.vcxproj -> C:\Users\Administrator\Documents\Visual Studio 2015\Projects\CRC_TEST\Debug\rear_hdlc.pdb (Partial PDB)
