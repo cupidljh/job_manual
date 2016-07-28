@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-	hdlc_enc hdlc_enc;
+	hdlc_enc hdlc_enc[10];
 	hdlc_dec hdlc_dec;
 
 	if (argc == 1) {
