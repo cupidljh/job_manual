@@ -114,8 +114,14 @@ void hdlc_decode(hdlc_enc *hdlc_encode, hdlc_dec *hdlc_decode)
 				{                                // 7D를 없애고 배열을 한 칸씩 땡긴다
 					hdlc_decode->info[i + 1] ^= ESCAPE_BYTE;
 					memmove(hdlc_decode->info + i, hdlc_decode->info + i + 1, hdlc_decode->size - i);
+					hdlc_decode->size--;
 				}
 			}
+
+			for (i = 0; i < hdlc_decode->size; i++)
+				printf("%c", hdlc_decode->info[i]);
+
+			printf("\n");
 
 			if (hdlc_decode->fcs != hdlc_encode->fcs)
 				printf("transmit error\n");
