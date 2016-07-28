@@ -1,9 +1,13 @@
+#define DEBUG
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "crc_table.h"
 #include "hdlc.h"
+#include "debug.h"
+
 
 #define FLAG 0x7E
 
@@ -62,7 +66,7 @@ void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // 파일에서 16byte씩 데�
 		printf("Before Encoding Data : ");
 
 		for (i = 0; i < (int)buflen; i++)
-			printf("%02x ", hdlc_encode->info[i]);
+			printf("%02X ", hdlc_encode->info[i]);
 
 		printf("\n\n");
 		
