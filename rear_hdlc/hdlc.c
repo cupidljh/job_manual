@@ -59,10 +59,13 @@ void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // 파일에서 16byte씩 데�
 	{
 		hdlc_encode->start_flag = FLAG;
 
-		for (i = 0; i < (int)buflen; i++)
-			printf("%c", hdlc_encode->info[i]);
+		printf("Before Encoding Data : ");
 
-		printf("\n");
+		for (i = 0; i < (int)buflen; i++)
+			printf("%02x ", hdlc_encode->info[i]);
+
+		printf("\n\n");
+		
 
 		for (i = 0; i < (int)buflen; i++)
 		{
@@ -75,14 +78,14 @@ void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // 파일에서 16byte씩 데�
 			}
 		}
 
-		printf("input data = ");
+		printf("After Encoding data = ");
 		for (i = 0; i < (int)buflen; i++)
 			printf(" %02X", hdlc_encode->info[i]); //검사한 data 출력
 
-		printf("\n");
+		printf("\n\n");
 
 		hdlc_encode->fcs = compute_fcs(hdlc_encode->info, (int)buflen); // fcs 계산
-		printf("fcs = %02X\n", hdlc_encode->fcs);
+		printf("fcs = %02X\n\n", hdlc_encode->fcs);
 
 		hdlc_encode->size = (int)buflen;
 
@@ -106,6 +109,13 @@ void hdlc_decode(hdlc_enc *hdlc_encode, hdlc_dec *hdlc_decode)
 			for (i = 0; i < hdlc_decode->size; i++)  // encode에 data를 decode 에 저장
 				hdlc_decode->info[i] = hdlc_encode->info[i];
 
+			printf("Befor Decoidng Data = ");
+
+			for (i = 0; i < hdlc_decode->size; i++)  //들어온 DATA 출력
+				printf(" %02X", hdlc_encode->info[i]);
+
+			printf("\n\n");
+
 			hdlc_decode->fcs = compute_fcs(hdlc_decode->info, hdlc_decode->size); // fcs 계산
 
 			for (i = 0; i < hdlc_decode->size; i++)
@@ -118,15 +128,17 @@ void hdlc_decode(hdlc_enc *hdlc_encode, hdlc_dec *hdlc_decode)
 				}
 			}
 
-			for (i = 0; i < hdlc_decode->size; i++)
-				printf("%c", hdlc_decode->info[i]);
+			printf("After Decoding Data = ");
 
-			printf("\n");
+			for (i = 0; i < hdlc_decode->size; i++)
+				printf("%02X ", hdlc_decode->info[i]);
+
+			printf("\n\n");
 
 			if (hdlc_decode->fcs != hdlc_encode->fcs)
-				printf("transmit error\n");
+				printf("transmit error\n\n");
 			else
-				printf("transmit success\n");
+				printf("transmit success\n\n");
 
 			
 		}
