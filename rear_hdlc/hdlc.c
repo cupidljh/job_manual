@@ -28,10 +28,14 @@ void hdlc_init(hdlc_enc *hdlc_encode, hdlc_dec *hdlc_decode) //hdlc ±¸Á¶Ã¼¸¦ ÃÊ±
 	}
 	//hdlc_decode init
 
+	hdlc_decode->start_flag = 0x00;
+
 	for (i = 0; i < strlen(hdlc_decode->info); i++)
 		hdlc_decode->info[i] = 0;
 
 	hdlc_decode->fcs = 0x0000;
+
+	hdlc_decode->finish_flag = 0x00;
 }
 
 u16 compute_fcs(unsigned char *data, int length)
@@ -63,7 +67,7 @@ void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // ÆÄÀÏ¿¡¼­ 16byte¾¿ µ¥À
 	{
 		hdlc_encode->start_flag = FLAG;
 
-		printf("Before Encoding Data : ");
+		printf("\nBefore Encoding Data : ");
 
 		for (i = 0; i < (int)buflen; i++)
 			printf("%02X ", hdlc_encode->info[i]);
@@ -82,18 +86,16 @@ void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // ÆÄÀÏ¿¡¼­ 16byte¾¿ µ¥À
 			}
 		}
 
-		printf("After Encoding data = ");
-		for (i = 0; i < (int)buflen; i++)
-			printf(" %02X", hdlc_encode->info[i]); //°Ë»çÇÑ data Ãâ·Â
-
-		printf("\n\n");
-
 		hdlc_encode->fcs = compute_fcs(hdlc_encode->info, (int)buflen); // fcs °è»ê
-		printf("fcs = %02X\n\n", hdlc_encode->fcs);
 
 		hdlc_encode->size = (int)buflen;
 
 		hdlc_encode->finish_flag = FLAG;
+
+		printf("After Encoding Data : %02X ", hdlc_encode->start_flag);   //Encoding ÇÑ HDLC Ãâ·ÂÇÏ±â.
+		for (i = 0; i < (int)buflen; i++)
+			printf("%02X ", hdlc_encode->info[i]);
+		printf("%02X %02X\n\n",hdlc_encode->fcs, hdlc_encode->finish_flag);
 
 		hdlc_encode++; // ±¸Á¶Ã¼ ¹è¿­ Áõ°¡
 	}
@@ -110,15 +112,11 @@ void hdlc_decode(hdlc_enc *hdlc_encode, hdlc_dec *hdlc_decode)
 
 			hdlc_decode->size = hdlc_encode->size; // input data size¸¦ °¡Á®¿Â´Ù
 
+			hdlc_decode->start_flag = hdlc_encode->start_flag;
+			hdlc_decode->finish_flag = hdlc_encode->finish_flag;
+
 			for (i = 0; i < hdlc_decode->size; i++)  // encode¿¡ data¸¦ decode ¿¡ ÀúÀå
 				hdlc_decode->info[i] = hdlc_encode->info[i];
-
-			printf("Befor Decoidng Data = ");
-
-			for (i = 0; i < hdlc_decode->size; i++)  //µé¾î¿Â DATA Ãâ·Â
-				printf(" %02X", hdlc_encode->info[i]);
-
-			printf("\n\n");
 
 			hdlc_decode->fcs = compute_fcs(hdlc_decode->info, hdlc_decode->size); // fcs °è»ê
 
@@ -140,9 +138,9 @@ void hdlc_decode(hdlc_enc *hdlc_encode, hdlc_dec *hdlc_decode)
 			printf("\n\n");
 
 			if (hdlc_decode->fcs != hdlc_encode->fcs)
-				printf("transmit error\n\n");
+				printf("receive error\n\n");
 			else
-				printf("transmit success\n\n");
+				printf("receive success\n\n");
 
 			
 		}

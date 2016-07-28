@@ -15,8 +15,10 @@ typedef struct _Hdlc_encode {  // ±¸Á¶Ã¼
 
 
 typedef struct _Hdlc_decode {
+	unsigned int start_flag;
 	unsigned char info[256];
 	unsigned short fcs;
+	unsigned int finish_flag;
 	int size;
 }hdlc_dec;
 
