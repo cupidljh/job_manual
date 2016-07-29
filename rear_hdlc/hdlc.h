@@ -10,6 +10,7 @@ typedef struct _Hdlc_encode {  // 구조체
 	unsigned short fcs;
 	unsigned int finish_flag;
 	int size;
+	unsigned char crcH, crcL;
 }hdlc_enc;
 
 
@@ -20,6 +21,7 @@ typedef struct _Hdlc_decode {
 	unsigned short fcs;
 	unsigned int finish_flag;
 	int size;
+	unsigned char crcH, crcL;
 }hdlc_dec;
 
 void hdlc_init(hdlc_enc *hdlc_encode, hdlc_dec *hdlc_decode); //hdlc 구조체를 초기화 해준다.

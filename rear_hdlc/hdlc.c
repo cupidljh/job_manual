@@ -51,6 +51,7 @@ u16 compute_fcs(unsigned char *data, int length)
 	return (fcs);
 }
 
+
 void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // ÆÄÀÏ¿¡¼­ 16byte¾¿ µ¥ÀÌÅÍ¸¦ °¡Á®¿Â´Ù.
 {
 	int i;
@@ -77,7 +78,7 @@ void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // ÆÄÀÏ¿¡¼­ 16byte¾¿ µ¥À
 
 		for (i = 0; i < (int)buflen; i++)
 		{
-			if (hdlc_encode->info[i] == FLAG | hdlc_encode->info[i] == 0x7d) { // data Áß°£ 7E°¡ ÀÖÀ¸¸é ¾ÈµÊÀ¸·Î Ã³¸®
+			if ((hdlc_encode->info[i] == FLAG) |( hdlc_encode->info[i] == 0x7d)) { // data Áß°£ 7E°¡ ÀÖÀ¸¸é ¾ÈµÊÀ¸·Î Ã³¸®
 				hdlc_encode->info[i] ^= ESCAPE_BYTE; // 7E¿Í 0x20À» XORÇØÁÜ ±× ÈÄ XOR °ª ¾Õ¿¡ 7D ³Ö¾îÁÖ¸é ³¡
 
 				memmove(hdlc_encode->info + i + 1, hdlc_encode->info + i, (int)buflen - i + 1); //¹è¿­ Áß°£¿¡ 7d »ðÀÔ ÇÒ °ø°£ ¸¸µê
@@ -88,6 +89,10 @@ void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // ÆÄÀÏ¿¡¼­ 16byte¾¿ µ¥À
 
 		hdlc_encode->fcs = compute_fcs(hdlc_encode->info, (int)buflen); // fcs °è»ê
 
+		hdlc_encode->crcH = hdlc_encode->fcs >> 8; //°è»êµÈ CRC°ªÀ» CRCH¿Í CRCL·Î ³ª´©¾îÁØ´Ù.
+		hdlc_encode->crcL = hdlc_encode->fcs;
+
+
 		hdlc_encode->size = (int)buflen;
 
 		hdlc_encode->finish_flag = FLAG;
@@ -95,7 +100,7 @@ void hdlc_encode(char *filename, hdlc_enc *hdlc_encode) // ÆÄÀÏ¿¡¼­ 16byte¾¿ µ¥À
 		printf("After Encoding Data : %02X ", hdlc_encode->start_flag);   //Encoding ÇÑ HDLC Ãâ·ÂÇÏ±â.
 		for (i = 0; i < (int)buflen; i++)
 			printf("%02X ", hdlc_encode->info[i]);
-		printf("%02X %02X\n\n",hdlc_encode->fcs, hdlc_encode->finish_flag);
+		printf("%02X %02X %02X\n\n",hdlc_encode->crcH,hdlc_encode->crcL, hdlc_encode->finish_flag);
 
 		hdlc_encode++; // ±¸Á¶Ã¼ ¹è¿­ Áõ°¡
 	}
@@ -130,7 +135,7 @@ void hdlc_decode(hdlc_enc *hdlc_encode, hdlc_dec *hdlc_decode)
 				}
 			}
 
-			printf("After Decoding Data = ");
+			printf("Decoding Data = ");
 
 			for (i = 0; i < hdlc_decode->size; i++)
 				printf("%02X ", hdlc_decode->info[i]);
