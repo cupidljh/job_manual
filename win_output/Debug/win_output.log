@@ -1,0 +1,5 @@
+﻿  win_output.c
+c:\users\administrator\documents\github\git_source\win_output\win_output.c : fatal error C1853: 'Debug\win_output.pch' 미리 컴파일된 헤더 파일이 이전 버전의 컴파일러에서 만들어졌거나, 미리 컴파일된 헤더가 C++인데 C에서 사용하고 있거나 또는 그 반대의 경우입니다.
+  hdlc.c
+c:\users\administrator\documents\github\git_source\win_output\hdlc.c : fatal error C1853: 'Debug\win_output.pch' 미리 컴파일된 헤더 파일이 이전 버전의 컴파일러에서 만들어졌거나, 미리 컴파일된 헤더가 C++인데 C에서 사용하고 있거나 또는 그 반대의 경우입니다.
+  코드를 생성하고 있습니다...

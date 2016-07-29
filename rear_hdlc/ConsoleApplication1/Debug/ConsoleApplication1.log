@@ -1,0 +1,7 @@
+﻿cl : 명령줄 warning D9028: 최소 다시 빌드에 실패했습니다. 정상 빌드로 되돌립니다.
+  stdafx.cpp
+  ConsoleApplication1.cpp
+c:\users\administrator\documents\github\git_source\rear_hdlc\consoleapplication1\consoleapplication1.cpp(40): error C2664: 'void OutputDebugStringW(LPCWSTR)': 인수 1을(를) 'char [256]'에서 'LPCWSTR'(으)로 변환할 수 없습니다.
+  c:\users\administrator\documents\github\git_source\rear_hdlc\consoleapplication1\consoleapplication1.cpp(40): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+c:\users\administrator\documents\github\git_source\rear_hdlc\consoleapplication1\consoleapplication1.cpp(45): error C2664: 'void MyOutputDebugString(char *,...)': 인수 1을(를) 'const wchar_t [9]'에서 'char *'(으)로 변환할 수 없습니다.
+  c:\users\administrator\documents\github\git_source\rear_hdlc\consoleapplication1\consoleapplication1.cpp(45): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
