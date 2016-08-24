@@ -1,0 +1,35 @@
+DEPEND_FILE = depend_file
+
+CC = gcc
+
+LIB_NAME = lib_HDLC
+LIB_FULL_NAME = lib$(LIB_NAME).so
+
+LIB_SRCS = hdlc.c
+LIB_OBJS = $(LIB_SRCS:.c=.o)
+
+LIBS = -l$(LIB_NAME)
+LIB_DIR = -L./
+
+TARGET_SRCS = run.c
+TARGET_OBJS = $(TARGET_SRCS:.c=.o)
+TARGET_NAMES = test_DHDLC
+
+.SUFFIXES : .c .o
+
+all : $(LIB_FULL_NAME) $(TARGET_NAMES)
+
+$(LIB_FULL_NAME) : $(LIB_OBJS)
+	$(CC) -fPIC -c $(LIB_SRCS)
+	$(CC) -shared -fPIC -o $(LIB_FULL_NAME) $(LIB_OBJS)
+
+$(TARGET_NAMES): $(TARGET_OBJS)
+	$(CC) -o $(TARGET_NAMES) $(TARGET_OBJS) $(LIB_DIR) $(LIBS)
+
+depend:
+	$(CC) -MM $(LIB_SRCS) $(TARGET_SRCS) > $(DEPEND_FILE)
+
+clean :
+	rm -f $(LIB_FULL_NAME) $(LIB_OBJS) $(TARGET_NAMES) $(TARGET_OBJS) $(DEPEND_FILE)
+
+
